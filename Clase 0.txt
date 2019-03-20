@@ -1,0 +1,10 @@
+1.- Iniciar servidor(Xampp - apache)
+2.- Accedera htdocs
+3.- Header(<?php  ?>)
+
+Se abre con el explorador web ingresando en localhost:8080/"carpeta"/"archivo".
+
+** Bajar postman**
+
+Postman: debugging y preview; entorno de desarrollo; permite hacer consultas GET, POST, DELETE.
+
