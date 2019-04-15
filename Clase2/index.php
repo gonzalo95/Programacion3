@@ -7,20 +7,26 @@
     switch (getenv('REQUEST_METHOD')) 
     {
         case 'GET':
-            $alumno = new Alumno($_GET["nombre"], $_GET["apellido"], $_GET["dni"], $_GET["legajo"]);
-            array_push($alumnos, $alumno);
+        	$archivo = $_GET['archivo'];
+        	$f = fopen($archivo, 'r');
+            $leido = fread($f, filesize($archivo));
+            $alumnos = json_decode($leido, true);
+            fclose($f);
+            var_dump($alumnos);
             break;
 
         case 'POST':
-            # code...
-            break;
-
-        case 'PUT':
-            $archivo = $_PUT['archivo'];
+            $alumno = new Alumno($_POST['nombre'], $_POST['apellido'], $_POST['dni'], $_POST['legajo']);
+            array_push($alumnos, $alumno);
+            $archivo = $_POST['archivo'];
             $json = json_encode($alumnos);
             $f = fopen($archivo, 'a');
             fwrite($f, $json);
             fclose($f);
+            break;
+
+        case 'PUT':
+
             break;
 
         case 'DELETE':
@@ -31,21 +37,4 @@
             echo "Error";
             break;
     }
-
-    //var_dump($alumnos);
-
-    $f = fopen("data.json", "a");
-	fwrite($f,json_encode($alumnos));
-	fclose($f);
-    
-    /*
-    echo $alumno->to_csv();
-    echo "<br>";
-    echo $alumno->to_json();
-    
-    var_dump($alumno);
-    $datos = array($alumno->nombre, $alumno->apellido, $alumno->dni, $alumno->legajo);
-    echo join(";", $datos);
-    echo $alumno->nombre.";".$alumno->apellido.";".$alumno->dni.";".$alumno->legajo;
-    */
 ?>
