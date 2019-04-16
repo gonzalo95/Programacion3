@@ -1,69 +1,43 @@
 <?php
 	require ".\alumno.php";
-	$alumnos = array();
 
-	$consulta = getenv('REQUEST_METHOD');
+    $ext = $_FILES['imagen']['name'];
 
-	switch ($consulta) {
-		case 'GET':
-            //$alumnos = alumno.traer_alumnos();
+    $ext = explode('.', $ext);
 
-            //$archivo = $_GET['archivo'];
-            //$f = fopen($archivo, 'a');
-            //$alumnos = fread($f, filesize($archivo))
-            //fclose($f);
-			break;
-		
-		case 'POST':
-			//alumno.insertar_alumno();
+    var_dump($ext);
 
-			$nombre = $_POST["nombre"];
-			$apellido = $_POST["apellido"];
-			$dni = $_POST["dni"];
-			$legajo = $_POST["legajo"];
+    $indice = count($ext) - 1;
 
-			$alumno = new Alumno($nombre, $apellido, $dni, $legajo);
-            $archivo = $_POST['archivo'];
-            $json = json_encode($alumno);
-            $f = fopen($archivo, 'a');
-            fwrite($f, $json);
-            fclose($f);
-
-            $ext = $_FILES['imagen']['name'];
-
-            $ext = explode('.', $ext);
-
-            var_dump($ext);
-
-            $indice = count($ext) - 1;
-
-            $origen = $_FILES['imagen']['tmp_name'];
-			$destino = $apellido.$legajo;
-			
-			if (file_exists('.\fotos\\'.$destino.'.'.$ext[$indice])) 
-			{
-				$contador = 1;
-				while (file_exists('.\backup\\'.$destino.'bkup'.$contador.'.'.$ext[$indice])) 
-				{
-					$contador++;
-				}
-				move_uploaded_file($origen, '.\backup\\'.$destino.'bkup'.$contador.'.'.$ext[$indice]);
-			}
-
-			move_uploaded_file($origen, '.\fotos\\'.$destino.'.'.$ext[$indice]);
-
-			break;
-
-		case 'PUT':
-			
-			break;
-
-		case 'DELETE':
-			
-			break;
-
-		default:
-			echo("Opcion invalida");
-			break;
+    $origen = $_FILES['imagen']['tmp_name'];
+	$destino = $apellido.$legajo;
+	
+	if (file_exists('.\fotos\\'.$destino.'.'.$ext[$indice])) 
+	{
+		$contador = 1;
+		while (file_exists('.\backup\\'.$destino.'bkup'.$contador.'.'.$ext[$indice])) 
+		{
+			$contador++;
+		}
+		move_uploaded_file($origen, '.\backup\\'.$destino.'bkup'.$contador.'.'.$ext[$indice]);
 	}
+
+	move_uploaded_file($origen, '.\fotos\\'.$destino.'.'.$ext[$indice]);
+
+
+	/*
+	$estampa = imagecreatefrompng('marca_de_agua.png');
+	$im = imagecreatefromjpeg('foto.jpg');
+	
+	$margen_dcho = 10;
+	$margen_inf = 10;
+	$sx = imagesx($estampa);
+	$sy = imagesy($estampa);
+
+	imagecopy($im, $estampa, imagesx($im) - $sx - $margen_dcho, imagesy($im) - $sy - $margen_inf, 0, 0, imagesx($estampa), imagesy($estampa));
+
+	header('Content-type: image/png');
+	imagepng($im);
+	imagedestroy($im);
+	*/
 ?>
