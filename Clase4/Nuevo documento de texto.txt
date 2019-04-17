@@ -1,0 +1,19 @@
+INSERT INTO `localidad`(`localidad`) VALUES ("avellaneda"), ("quilmes"), ("lanus"), ("temperley")
+
+INSERT INTO `alumnos`(`legajo`, `localidad`, `nombre`) VALUES (111, 1, "Gonzalo"), (222, 3, "Miguel"), (333, 2, "Daiana"), (444, 3, "Marcos"), (555, 4, "Helena"), (666, 1, "Facundo")
+
+UPDATE `alumnos` SET `legajo`= 123 WHERE id = 1
+
+DELETE FROM `alumnos` WHERE id = 6
+
+SELECT l.localidad FROM localidad l
+
+SELECT l.localidad as ciudad FROM localidad l
+
+(Join 2 tablas)
+SELECT a.id, a.nombre, a.legajo, l.localidad FROM alumnos a, localidad l WHERE a.localidad = l.id
+
+
+SELECT a.id, a.nombre, a.legajo, l.localidad FROM alumnos a, localidad l WHERE a.localidad = l.id and l.localidad like '%Avellaneda%'
+
+

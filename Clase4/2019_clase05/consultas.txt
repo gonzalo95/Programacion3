@@ -1,0 +1,15 @@
+SELECT * FROM `productos` ORDER BY pNombre
+
+SELECT * FROM `provedores` WHERE Localidad LIKE "Quilmes"
+
+SELECT * FROM `envios` WHERE Cantidad >= 200 AND Cantidad <= 300
+
+SELECT SUM(Cantidad) FROM `envios`
+
+SELECT pNumero FROM `envios` LIMIT 3
+
+SELECT prov.Nombre, prod.pNombre FROM envios e, productos prod, provedores prov WHERE prov.Nombre =e.Numero and prod.pNombre = e.pNumero // NO ANDA
+
+SELECT SUM(env.Cantidad * prod.Precio) FROM envios env, productos prod // ¿ANDA?
+
+SELECT SUM(Cantidad) FROM envios WHERE Numero = 102 and pNumero = 1
