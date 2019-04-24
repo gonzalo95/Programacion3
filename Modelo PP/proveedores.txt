@@ -1,0 +1,3 @@
+1;yukon;ejemplo@gmail.com;imagen.jpg
+2;alumar;ejemplo@gmail.com;imagen.jpg
+3;samsung;ejemplo@gmail.com;imagen.jpg

@@ -1,0 +1,4 @@
+tornillos;300;2
+matafuegos;5;1
+monitores;15;3
+monitores;5;3
