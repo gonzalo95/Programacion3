@@ -1,4 +1,6 @@
 <?php
+    require_once ".\proveedor.php";
+
     class Pedido
     {
         public $producto;
@@ -27,9 +29,11 @@
                 $csv = explode(";", $leido);
                 if ($csv[0] == $this->proveedor)
                 {
+                    fclose($f);
                     return true;
                 }
             }
+            fclose($f);
             return false;
         }
 
@@ -41,10 +45,6 @@
                 fwrite($f, $this->to_csv().PHP_EOL);
                 fclose($f);
             }
-            else
-            {
-                echo "No existe el proveedor";
-            }
         }
 
         public function array_guardar($array, $dir)
@@ -55,30 +55,55 @@
             }
         }
 
+        public static function array_leer($dir)
+        {
+            $f = fopen($dir, "r");
+            $array = array();
+            while (!feof($f)) 
+            {
+                $pedido = trim(fgets($f));
+                if ($pedido != "") 
+                {
+                    $pedido = explode(';', $pedido);
+                    array_push($array, new Pedido($pedido[0], $pedido[1], $pedido[2]));
+                }
+            }
+            fclose($f);
+            return $array;
+        }
+
         public static function leer($pedidos, $proveedores)
         {
-            $f_pedidos = fopen($pedidos, "r");
-            $f_proveedores = fopen($proveedores, "r");
+            $array_pedidos = Pedido::array_leer($pedidos);
+            $array_proveedores = Proveedor::array_leer($proveedores);
             $salida = "";
-            while (!feof($f_pedidos)) 
+
+            foreach ($array_pedidos as $pedido) 
             {
-                $pedido = fgets($f_pedidos);
-                $csv_pedido = explode(";", $pedido);
-                //$salida = $salida.$pedido;
-                while (!feof($f_proveedores)) 
+                foreach ($array_proveedores as $proveedor) 
                 {
-                    $proveedor = fgets($f_proveedores);
-                    $csv_proveedor = explode(";", $proveedor);
-                    var_dump($csv_proveedor);
-                    if ($csv_pedido[2] == $csv_proveedor[0])
+                    if ($pedido->proveedor == $proveedor->id) 
                     {
-                        $salida = $salida.$pedido.$csv_proveedor[0].PHP_EOL;
-                        break;
+                        $salida .= $pedido->to_csv();
+                        $salida .=  ";" . $proveedor->nombre . PHP_EOL;
                     }
                 }
             }
-            fclose($f_pedidos);
-            fclose($f_proveedores);
+            return $salida;
+        }
+
+        public static function listarPorProveedor($pedidos, $id)
+        {
+            $array_pedidos = Pedido::array_leer($pedidos);
+            $salida = "";
+
+            foreach ($array_pedidos as $pedido) 
+            {
+                if ($pedido->proveedor == $id)
+                {
+                    $salida .= $pedido->to_csv();
+                }
+            }
             return $salida;
         }
     }
