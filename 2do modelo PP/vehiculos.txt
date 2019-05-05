@@ -1,0 +1,3 @@
+ford;mondeo;111;400k
+chevrolet;corsa;112;300k
+audi;a5;113;750k
